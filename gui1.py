@@ -1,4 +1,5 @@
 # import tkinter
+import time
 from tkinter import *
 def onClick(e):
 	Label(text='Hello World'+e).grid(row=1,column=0)
