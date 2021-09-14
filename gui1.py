@@ -1,4 +1,4 @@
-# import tkinter
+# imports
 import time
 from tkinter import *
 def onClick(e):
