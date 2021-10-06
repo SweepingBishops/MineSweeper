@@ -30,7 +30,6 @@ minePositions , squareValues = plantMines(gridSize,mineCount)
 
 #creating main screen
 main = Tk(className='Minesweeper')
-#main.geometry('250x250')
 #adjisting grid size
 #main.columnconfigure(0,weight=3)
 #main.rowconfigure(0,weight=3)
