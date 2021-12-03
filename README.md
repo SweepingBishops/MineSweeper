@@ -1,5 +1,4 @@
 # MineSweeper
-This is a python project.\n
-This program runs a gui game called minesweeper.\n
+This is a python project.
+This program runs a gui game called minesweeper.
 Class 12 project
-Blah
