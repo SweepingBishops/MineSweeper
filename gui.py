@@ -12,7 +12,7 @@ def openSquares(clickPosition):
 
 
 def onClick(clickPosition):
-	print(clickPosition)
+	#print(clickPosition)
 	if clickPosition not in minePositions:	#if clicked square does not contain mine it is coloured green
 		Label(main,text= str(clickPosition[0]) +','+ str(clickPosition[1]),bg='green').grid(row=clickPosition[0],column=clickPosition[1])
 		#open_squares
@@ -39,5 +39,5 @@ for i in range(gridSize):
 		Button(main,text=str(i)+','+str(j),command=lambda i=i , j=j: onClick((i,j))).grid(row=i,column=j)
 		#i is the row number and j is the column number
 print(minePositions)
-print(squareValues)
+#print(squareValues)
 mainloop()
