@@ -3,14 +3,6 @@ import random
 import time
 from plantMines import *
 
-def openSquares(clickPosition):
-	neighbouringSquares =[				#sets the neighbouring squares of the square with index (i,j)
-	( i-1 , j-1 ) , ( i , j-1 ) , ( i+1 , j-1 ),
-	( i-1 , j )   ,               ( i+1 , j ),
-	( i-1 , j+1 ) , ( i , j+1 ) , ( i+1 , j+1 )]
-
-
-
 def onClick(clickPosition):
 	#print(clickPosition)
 	if clickPosition not in minePositions:	#if clicked square does not contain mine it is coloured green
