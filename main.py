@@ -14,7 +14,7 @@ def openSquares(clickPosition):
 def onClick(clickPosition):
 	#print(clickPosition)
 	if clickPosition not in minePositions:	#if clicked square does not contain mine it is coloured green
-		Label(main,text= str(clickPosition[0]) +','+ str(clickPosition[1]),bg='green').grid(row=clickPosition[0],column=clickPosition[1])
+		Label(main,text= squareValues[clickPosition[0] , clickPosition[1]],bg='green').grid(row=clickPosition[0],column=clickPosition[1])
 		#open_squares
 	else:	#if the square contains a mine it is coloured red and the game exits
 		Label(main,text= str(clickPosition[0]) +','+ str(clickPosition[1]),bg='red').grid(row=clickPosition[0],column=clickPosition[1])
