@@ -1,7 +1,7 @@
 from tkinter import *
 import random
 import time
-from plantMines_rewrite import *
+from plantMines import *
 
 ###Global variables###
 firstClickFlag = True
