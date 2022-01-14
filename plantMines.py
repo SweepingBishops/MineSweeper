@@ -18,7 +18,7 @@ def plantMines(i,j,gridSize,mineCount):		#function to plant the mines and determ
 	squareValues = {}
 	while len(minePositions) < mineCount:
 		x,y = randint(0,gridSize - 1),randint(0,gridSize - 1)
-		if (x,y) != (i,j):
+		if (x,y) != (i,j) and (x,y) not in identifyNeighbouringSquares(i, j, gridSize):
 			minePositions.add( (x,y) )	#uses random for deciding where to put mines
 
 	for i in range(gridSize):
@@ -30,4 +30,7 @@ def plantMines(i,j,gridSize,mineCount):		#function to plant the mines and determ
 		for neighbouringSquare in identifyNeighbouringSquares(i,j,gridSize):
 			if neighbouringSquare not in minePositions:
 				squareValues[neighbouringSquare] += 1
+	for key in squareValues:
+		if squareValues[key] == 0:
+			squareValues[key] = None
 	return minePositions , squareValues

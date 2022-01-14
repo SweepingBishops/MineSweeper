@@ -1,45 +1,55 @@
-from tkinter import *
+import tkinter
 import random
 import time
-from plantMines import *
+from plantMines import plantMines, identifyNeighbouringSquares
+from functools import partial
 
 ###Global variables###
 firstClickFlag = True
-minePositions , squareValues = {}, {}
+bIdentity , minePositions , squareValues = {}, {}, {}
 
-def onClick(i,j):
-	global firstClickFlag
-	global minePositions
-	global squareValues
+def main():
 
-	if firstClickFlag:
-		minePositions, squareValues = plantMines(i,j,gridSize,mineCount)
-		print(minePositions)
-		firstClickFlag = False
+	def onClick(i,j):
+		global firstClickFlag
+		global minePositions
+		global squareValues
 
-	if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
-		Label(main,text= squareValues[(i,j)],bg='green').grid(row=i,column=j)
-		#open_squares
-	else:	#if the square contains a mine it is coloured red and the game exits
-		Label(main,text= str(i) +','+ str(j),bg='red').grid(row=i,column=j)
-		print('You lost:(')
-		#high scores
-		main.after(2000,func=exit)
-		
+		button = bIdentity[(i,j)]
+		button['state'] = 'disabled'
+
+		if firstClickFlag:
+			minePositions, squareValues = plantMines(i,j,gridSize,mineCount)
+			print(minePositions)
+			firstClickFlag = False
+
+		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
+			tkinter.Label(mainWindow,text= squareValues[(i,j)],bg='green', height = 1, width = 4).grid(row=i,column=j)
+
+		else:				#if the square contains a mine it is coloured red and the game exits
+			tkinter.Label(mainWindow,text= str(i) +','+ str(j),bg='red', height = 1, width = 4).grid(row=i,column=j)
+			print('You lost:(')
+			mainWindow.after(10000,func=exit)
+		if squareValues[(i,j)] == None:
+			neighbouringSquares = identifyNeighbouringSquares(i, j, gridSize)
+			for neighbouringSquare in neighbouringSquares:
+				bIdentity[neighbouringSquare].invoke()
 
 
-gridSize = int(input('Enter grid size: '))
-mineCount = int(input('Enter number of mines: '))
+	gridSize = int(input('Enter grid size: '))
+	mineCount = int(input('Enter number of mines: '))
 
-#creating main screen
-main = Tk(className='Minesweeper')
-#adjisting grid size
-#main.columnconfigure(0,weight=3)
-#main.rowconfigure(0,weight=3)
+	#creating main screen
+	mainWindow = tkinter.Tk(className='Minesweeper')
+	
+	for i in range(gridSize):
+		for j in range(gridSize):
+			button = tkinter.Button(mainWindow, text= f'{str(i)},{str(j)}', command = partial(onClick,i,j) , height = 1, width = 2)
+			#button = tkinter.Button(mainWindow, text=count , command = partial(onClick,i,j) , height = 1, width = 2)
+			button.grid(row=i,column=j)
+			bIdentity[(i,j)] = button
+			#i is the row number and j is the column number
+	mainWindow.mainloop()
 
-for i in range(gridSize):
-	for j in range(gridSize):
-		Button(main,text=str(i)+','+str(j),command=lambda i=i , j=j: onClick(i,j)).grid(row=i,column=j)
-		#i is the row number and j is the column number
-#print(squareValues)
-mainloop()
+if __name__ == '__main__':
+	main()
