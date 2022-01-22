@@ -27,7 +27,7 @@ def main():
 
 		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
 			button.configure(text = squareValues[(i,j)], bg = 'green',activebackground = 'green')
-		else:				#if the square contains a mine it is coloured red and the game exits
+		else:				#if the square contains a mine it is coloured red
 			button.configure(height=46, width=62, bg = 'red', activebackground = 'red', image=mineImage)
 			for button in bIdentity.values():     #All buttons are diabled once a mine is clicked and the rest of the mines are shown 
 				button['state'] = 'disabled'
@@ -56,9 +56,9 @@ def main():
 	def rightClick(event):
 		button = event.widget
 
-		if button['image'] == '' and button['bg'] == '#d9d9d9':
+		if button['image'] == '' and button['bg'] == '#d9d9d9':		#Flags the square if it isn't and is not already leftClicked.
 			button.configure(height=46,width=62,image = flagImage)
-		elif button['image'] == 'pyimage1':
+		elif button['image'] == 'pyimage1':	#Unflags the square.
 			button.configure(height = 2, width = 4, image = '')
 			
 	gridSize = None
@@ -76,7 +76,7 @@ def main():
 			except Exception:
 				print(f'For grid size = {gridSize} the number of mines should be between 1 and {gridSize**2 - 10}.\n')
 				gridSize = None
-	#creating main screen
+	#creating main window
 	mainWindow = tkinter.Tk(className='Minesweeper')
 	mainWindow.option_add('*Font','22')
 	#images for the mine and the flag
