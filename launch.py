@@ -3,6 +3,7 @@ import tkinter
 from plantMines import plantMines, identifyNeighbouringSquares
 from functools import partial
 from time import time
+from PIL import Image, ImageTk
 
 ###Global variables###
 firstClickFlag = True
@@ -15,6 +16,8 @@ def main():
 		global firstClickFlag, minePositions, squareValues, clickedSquares, startTime, endTime
 
 		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
+		if button['image'] != '':	#if the square is flagged then it cannot be clicked
+			return
 		button['state'] = 'disabled'	#so that the same button can't be clicked multiple times
 
 		if firstClickFlag:
@@ -25,11 +28,12 @@ def main():
 		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
 			button.configure(text = squareValues[(i,j)], bg = 'green',activebackground = 'green')
 		else:				#if the square contains a mine it is coloured red and the game exits
-			button.configure(bg = 'red', activebackground = 'red')
+			button.configure(height=46, width=62, bg = 'red', activebackground = 'red', image=mineImage)
 			for button in bIdentity.values():     #All buttons are diabled once a mine is clicked and the rest of the mines are shown 
 				button['state'] = 'disabled'
 				for mine in minePositions:
-					bIdentity[mine].configure(bg='orange',activebackground='orange')
+					if mine != (i,j):
+						bIdentity[mine].configure(height=46, width=62, bg='orange', activebackground='orange', image=mineImage)
 			print('You lost:(')
 
 		clickedSquares += 1	
@@ -38,6 +42,7 @@ def main():
 			neighbouringSquares = identifyNeighbouringSquares(i, j, gridSize)
 			for neighbouringSquare in neighbouringSquares:
 				bIdentity[neighbouringSquare].invoke()
+
 		if clickedSquares == (gridSize**2 - mineCount):
 			print('You won!')
 			endTime = time()
@@ -51,12 +56,10 @@ def main():
 	def rightClick(event):
 		button = event.widget
 
-		if button['bg'] == '#d9d9d9':
-			button.configure(bg='blue',activebackground='blue')
-			button['state'] = 'disabled'
-		elif button['bg'] == 'blue':
-			button.configure(bg='#d9d9d9',activebackground='#d9d9d9')
-			button['state'] = 'normal'
+		if button['image'] == '' and button['bg'] == '#d9d9d9':
+			button.configure(height=46,width=62,image = flagImage)
+		elif button['image'] == 'pyimage1':
+			button.configure(height = 2, width = 4, image = '')
 			
 	gridSize = None
 	while gridSize == None:
@@ -76,11 +79,14 @@ def main():
 	#creating main screen
 	mainWindow = tkinter.Tk(className='Minesweeper')
 	mainWindow.option_add('*Font','22')
-	
+	#images for the mine and the flag
+	flagImage = ImageTk.PhotoImage(Image.open('resources/flag.png').resize((50,50)))
+	mineImage = ImageTk.PhotoImage(Image.open('resources/mine.png').resize((50,50)))
+
 	for i in range(gridSize):
 		for j in range(gridSize):
 			#creates and sets the buttons onto the window
-			button = tkinter.Button(mainWindow,disabledforeground = 'black', command = partial(leftClick,i,j) , height = 2, width = 4)
+			button = tkinter.Button(mainWindow,disabledforeground = 'black', command = partial(leftClick,i,j), height = 2, width = 4)
 			button.grid(row=i,column=j)
 			button.bind("<Button-3>",rightClick)
 			
