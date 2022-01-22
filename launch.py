@@ -1,17 +1,18 @@
 import tkinter
 import random
-import time
 from plantMines import plantMines, identifyNeighbouringSquares
 from functools import partial
+from time import time
 
 ###Global variables###
 firstClickFlag = True
 bIdentity , minePositions , squareValues = {}, {}, {}
 clickedSquares = 0
+startTime, endTime = 0,0
 
 def main():
 	def onClick(i,j):
-		global firstClickFlag, minePositions, squareValues, clickedSquares
+		global firstClickFlag, minePositions, squareValues, clickedSquares, startTime, endTime
 
 		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
 		button['state'] = 'disabled'	#so that the same button can't be clicked multiple times
@@ -19,11 +20,14 @@ def main():
 		if firstClickFlag:
 			minePositions, squareValues = plantMines(i,j,gridSize,mineCount)	#the mines are planted at the first click
 			firstClickFlag = False
+			startTime = time()
 
 		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
 			tkinter.Label(mainWindow,text= squareValues[(i,j)],bg='green', height = 2, width = 4).grid(row=i,column=j)
 		else:				#if the square contains a mine it is coloured red and the game exits
 			tkinter.Label(mainWindow,bg='red', height = 2, width = 4).grid(row=i,column=j)
+			for button in bIdentity.values():	#All buttons are diabled once a mine is clicked
+				button['state'] = 'disabled'
 			print('You lost:(')
 			mainWindow.after(2000,func=exit)
 
@@ -35,6 +39,10 @@ def main():
 				bIdentity[neighbouringSquare].invoke()
 		if clickedSquares == (gridSize**2 - mineCount):
 			print('You won!')
+			endTime = time()
+			for button in bIdentity.values():	#All buttons are disabled once the game is won.
+				button['state'] = 'disabled'
+			print(f'Time taken:{round(endTime - startTime,2)}s')
 			mainWindow.after(2000,func=exit)
 
 
