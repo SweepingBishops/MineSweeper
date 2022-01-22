@@ -26,10 +26,11 @@ def main():
 			button.configure(text = squareValues[(i,j)], bg = 'green',activebackground = 'green')
 		else:				#if the square contains a mine it is coloured red and the game exits
 			button.configure(bg = 'red', activebackground = 'red')
-			for button in bIdentity.values():	#All buttons are diabled once a mine is clicked
+			for button in bIdentity.values():     #All buttons are diabled once a mine is clicked and the rest of the mines are shown 
 				button['state'] = 'disabled'
+				for mine in minePositions:
+					bIdentity[mine].configure(bg='orange',activebackground='orange')
 			print('You lost:(')
-			mainWindow.after(2000,func=exit)
 
 		clickedSquares += 1	
 
@@ -42,8 +43,9 @@ def main():
 			endTime = time()
 			for button in bIdentity.values():	#All buttons are disabled once the game is won.
 				button['state'] = 'disabled'
+				for mine in minePositions:	#All mines are exposed.
+					bIdentity[mine].configure(bg='blue',activebackground='blue')
 			print(f'Time taken:{round(endTime - startTime,2)}s')
-			mainWindow.after(2000,func=exit)
 
 
 	def rightClick(event):
