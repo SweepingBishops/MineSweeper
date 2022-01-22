@@ -8,11 +8,10 @@ from functools import partial
 firstClickFlag = True
 bIdentity , minePositions , squareValues = {}, {}, {}
 clickedSquares = 0
-#gridSize , mineCount = None, None
 
 def main():
 	def onClick(i,j):
-		global firstClickFlag, minePositions, squareValues, clickedSquares#, gridSize, mineCount
+		global firstClickFlag, minePositions, squareValues, clickedSquares
 
 		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
 		button['state'] = 'disabled'	#so that the same button can't be clicked multiple times
