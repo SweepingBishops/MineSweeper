@@ -1,5 +1,5 @@
+#!/usr/bin/python3.8
 import tkinter
-import random
 from plantMines import plantMines, identifyNeighbouringSquares
 from functools import partial
 from time import time
@@ -11,7 +11,7 @@ clickedSquares = 0
 startTime, endTime = 0,0
 
 def main():
-	def onClick(i,j):
+	def leftClick(i,j):
 		global firstClickFlag, minePositions, squareValues, clickedSquares, startTime, endTime
 
 		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
@@ -23,9 +23,9 @@ def main():
 			startTime = time()
 
 		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
-			tkinter.Label(mainWindow,text= squareValues[(i,j)],bg='green', height = 2, width = 4).grid(row=i,column=j)
+			button.configure(text = squareValues[(i,j)], bg = 'green',activebackground = 'green')
 		else:				#if the square contains a mine it is coloured red and the game exits
-			tkinter.Label(mainWindow,bg='red', height = 2, width = 4).grid(row=i,column=j)
+			button.configure(bg = 'red', activebackground = 'red')
 			for button in bIdentity.values():	#All buttons are diabled once a mine is clicked
 				button['state'] = 'disabled'
 			print('You lost:(')
@@ -46,6 +46,16 @@ def main():
 			mainWindow.after(2000,func=exit)
 
 
+	def rightClick(event):
+		button = event.widget
+
+		if button['bg'] == '#d9d9d9':
+			button.configure(bg='blue',activebackground='blue')
+			button['state'] = 'disabled'
+		elif button['bg'] == 'blue':
+			button.configure(bg='#d9d9d9',activebackground='#d9d9d9')
+			button['state'] = 'normal'
+			
 	gridSize = None
 	while gridSize == None:
 			try:
@@ -68,8 +78,9 @@ def main():
 	for i in range(gridSize):
 		for j in range(gridSize):
 			#creates and sets the buttons onto the window
-			button = tkinter.Button(mainWindow, text= '', command = partial(onClick,i,j) , height = 2, width = 4)
+			button = tkinter.Button(mainWindow,disabledforeground = 'black', command = partial(leftClick,i,j) , height = 2, width = 4)
 			button.grid(row=i,column=j)
+			button.bind("<Button-3>",rightClick)
 			
 			bIdentity[(i,j)] = button	#adds the object into the dictionary so that it can be used later
 			
