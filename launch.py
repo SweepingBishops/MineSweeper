@@ -11,68 +11,68 @@ def main(gridSize,mineCount):
 	###Global variables###
 	result = None
 	firstClickFlag,gameover = True, False
-	bIdentity , minePositions , squareValues = {}, {}, {}
+	tileIdentity , minePositions , squareValues = {}, {}, {}
 	startTime, endTime, clickedSquares = 0,0,0
+	class tile():
+		def __init__(self,mainWindow,xPos,yPos):
+			self.xPos=xPos
+			self.yPos=yPos
+			self.leftClicked,self.rightClicked = False,False
+			self.button=tkinter.Button(mainWindow,disabledforeground='black',height=2,width=4)
+			self.button.grid(row=xPos,column=yPos)
+			self.button.bind("<Button-1>",self.leftClick)
+			self.button.bind("<Button-3>",self.rightClick)
 
-	def leftClick(i,j):
-		nonlocal result,gameover, firstClickFlag, clickedSquares ,minePositions, squareValues, startTime, endTime
+		
+		def leftClick(self,event=None):
+			nonlocal result,gameover,firstClickFlag,clickedSquares,minePositions,squareValues,startTime,endTime
+			if self.rightClicked or self.leftClicked or gameover:
+				return
+			self.leftClicked = True
+			if firstClickFlag:
+				firstClickFlag = False
+				minePositions,squareValues = plantMines(self.xPos,self.yPos,gridSize,mineCount)
+				startTime = time()
 
-		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
-		if button['image'] or gameover:	#button press function is not executed if the game is over or the button is flagged
-			return
-		button['state'] = 'disabled'	#so that the same button can't be clicked multiple times
+			if (self.xPos,self.yPos) not in minePositions:
+				self.button.configure(text=squareValues[(self.xPos,self.yPos)], bg='green', activebackground='green')
+				clickedSquares += 1
+			else:
+				for mine in minePositions:
+					tileIdentity[mine].button.configure(height=46,width=62, bg='orange', activebackground='orange', image=mineImage)
+				self.button.configure(height=46, width=62, bg='red', activebackground='red', image=mineImage)
+				gameover = True
+				if __name__ != '__main__':
+					youwon.disp(r'You Lost:(')
+				return
+			if clickedSquares == (gridSize**2 - mineCount):
+				endTime = time()
+				gameover = True
+				for mine in minePositions:
+					pass####
+				score = round(endTime - startTime)
+				hours = score//3600
+				score %= 3600
+				minutes = score//60
+				seconds = score%60
+				result = f'You Won!\n{hours}:{minutes}:{seconds}'
+				if __name__ != '__main__':
+					youwon.disp(result)
+				return
 
-		if firstClickFlag:
-			minePositions, squareValues = plantMines(i,j,gridSize,mineCount)	#the mines are planted at the first click
-			firstClickFlag = False
-			startTime = time()	#stores the time when the user starts playing
+			if squareValues[(self.xPos,self.yPos)] == None:
+				neighbouringSquares = identifyNeighbouringSquares(self.xPos,self.yPos,gridSize)
+				for neighbouringSquare in neighbouringSquares:
+					tileIdentity[neighbouringSquare].leftClick()
 
-		if (i,j) not in minePositions:	#if clicked square does not contain mine it is coloured green
-			button.configure(text = squareValues[(i,j)], bg = 'green',activebackground = 'green')
-			clickedSquares += 1	
-		else:				#if the square contains a mine it is coloured red
-			for mine in minePositions:	#all the other mines are coloured orange
-					bIdentity[mine].configure(height=46, width=62, bg='orange', activebackground='orange', image=mineImage)
-			button.configure(height=46, width=62, bg = 'red', activebackground = 'red', image=mineImage)
-			gameover = True
-			result = 'You Lost:('
-			if __name__ != '__main__':
-				youwon.disp(result)
-			return 'You Lost:('
 
-		if clickedSquares == (gridSize**2 - mineCount):		#checks if the game is won
-			endTime = time()	#stores time when the game is won
-			gameover = True
-			for mine in minePositions:	#All mines are exposed.
-				bIdentity[mine].configure(height=46,width=62,image = flagImage)
-
-			score = round(endTime - startTime)
-			hours = score//3600
-			score %= 3600
-			minutes = score//60
-			seconds = score%60
-
-			#print(f'Time taken:{hours}h {minutes}min {seconds}s')
-			result = f'You Won!\n{hours}:{minutes}:{seconds}'
-			if __name__ != '__main__':
-				youwon.disp(result)
-			return f'You Won!\n{hours}:{minutes}:{seconds}'
-
-		if squareValues[(i,j)] == None:		#opens neighbouring squares if current squareValue is 0 (game rule)
-			neighbouringSquares = identifyNeighbouringSquares(i, j, gridSize)
-			for neighbouringSquare in neighbouringSquares:
-				bIdentity[neighbouringSquare].invoke()
-
-	def rightClick(event):
-		if gameover: 
-			return
-		button = event.widget
-
-		if button['image'] == '' and button['bg'] == '#d9d9d9':		#Flags the square if it isn't and is not already leftClicked.
-			button.configure(height=46,width=62,image = flagImage)
-		elif button['image'] == 'pyimage1':	#Unflags the square.
-			button.configure(height = 2, width = 4, image = '')
-			
+		def rightClick(self,event=None):
+			if not self.rightClicked and not self.leftClicked:
+				self.rightClicked = True
+				self.button.configure(height=46, width=62, image=flagImage)
+			else:
+				self.rightClicked = False
+				self.button.configure(height=2, width=4,image='')
 	#creating main window
 	global mainWindow
 	mainWindow = tkinter.Tk(className='Minesweeper')
@@ -84,12 +84,9 @@ def main(gridSize,mineCount):
 	for i in range(gridSize):
 		for j in range(gridSize):
 			#creates and sets the buttons onto the window
-			button = tkinter.Button(mainWindow,disabledforeground = 'black', command = partial(leftClick,i,j), height = 2, width = 4)
-			button.grid(row=i,column=j)
-			button.bind("<Button-3>",rightClick)
-			
-			bIdentity[(i,j)] = button	#adds the object into the dictionary so that it can be used later
-			
+			button = tile(mainWindow,i,j)
+			tileIdentity[(i,j)] = button	#adds the object into the dictionary so that it can be used later
+	print(tileIdentity)		
 	mainWindow.mainloop()
 
 if __name__ == '__main__':
