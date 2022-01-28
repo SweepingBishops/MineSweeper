@@ -36,7 +36,8 @@ def main(gridSize,mineCount):
 			button.configure(height=46, width=62, bg = 'red', activebackground = 'red', image=mineImage)
 			gameover = True
 			result = 'You Lost:('
-			youwon.disp(result)
+			if __name__ != '__main__':
+				youwon.disp(result)
 			return 'You Lost:('
 
 		if clickedSquares == (gridSize**2 - mineCount):		#checks if the game is won
@@ -53,7 +54,8 @@ def main(gridSize,mineCount):
 
 			#print(f'Time taken:{hours}h {minutes}min {seconds}s')
 			result = f'You Won!\n{hours}:{minutes}:{seconds}'
-			youwon.disp(result)
+			if __name__ != '__main__':
+				youwon.disp(result)
 			return f'You Won!\n{hours}:{minutes}:{seconds}'
 
 		if squareValues[(i,j)] == None:		#opens neighbouring squares if current squareValue is 0 (game rule)
@@ -109,4 +111,4 @@ if __name__ == '__main__':
 			print(error.args[0])
 			gridSize = None
 
-	main(mainWindow,gridSize,mineCount)
+	main(gridSize,mineCount)

@@ -23,6 +23,8 @@ def disp(a):
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add highscore',width=12,height=2)
 	button2.grid(row=1,column=0)
+	button3=tk.Button(master=frame2,text='Quit',width=12,height=2,command=quit)
+	button3.grid(row=3,column=0)
 
 #labels
 	label1=tk.Label(master=frame1,text=a)
@@ -32,3 +34,7 @@ def disp(a):
 #entry
 	entry1=tk.Entry(master=frame1)
 	entry1.grid(row=3,column=0,sticky='n')
+
+def quit():
+	root.destroy()
+	exit()
