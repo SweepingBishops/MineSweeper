@@ -76,7 +76,7 @@ def main(gridSize,mineCount):
 	#creating main window
 	global mainWindow
 	mainWindow = tkinter.Tk(className='Minesweeper')
-	mainWindow.option_add('*Font','22')
+	mainWindow.option_add('*Font','Ariel 12')
 	#images for the mine and the flag
 	flagImage = ImageTk.PhotoImage(Image.open('resources/flag.png').resize((50,50)))
 	mineImage = ImageTk.PhotoImage(Image.open('resources/mine.png').resize((50,50)))
@@ -86,7 +86,6 @@ def main(gridSize,mineCount):
 			#creates and sets the buttons onto the window
 			button = tile(mainWindow,i,j)
 			tileIdentity[(i,j)] = button	#adds the object into the dictionary so that it can be used later
-	print(tileIdentity)		
 	mainWindow.mainloop()
 
 if __name__ == '__main__':
