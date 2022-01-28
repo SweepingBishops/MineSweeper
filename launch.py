@@ -4,16 +4,18 @@ from plantMines import plantMines, identifyNeighbouringSquares
 from functools import partial
 from time import time
 from PIL import Image, ImageTk
+import youwon
 
 
-def main():
+def main(gridSize,mineCount):
 	###Global variables###
+	result = None
 	firstClickFlag,gameover = True, False
 	bIdentity , minePositions , squareValues = {}, {}, {}
 	startTime, endTime, clickedSquares = 0,0,0
 
 	def leftClick(i,j):
-		nonlocal gameover, firstClickFlag, clickedSquares ,minePositions, squareValues, startTime, endTime
+		nonlocal result,gameover, firstClickFlag, clickedSquares ,minePositions, squareValues, startTime, endTime
 
 		button = bIdentity[(i,j)]	#stores the object at (i,j) into local variable button
 		if button['image'] or gameover:	#button press function is not executed if the game is over or the button is flagged
@@ -33,12 +35,12 @@ def main():
 					bIdentity[mine].configure(height=46, width=62, bg='orange', activebackground='orange', image=mineImage)
 			button.configure(height=46, width=62, bg = 'red', activebackground = 'red', image=mineImage)
 			gameover = True
-			print('You lost:(')
-			return
+			result = 'You Lost:('
+			youwon.disp(result)
+			return 'You Lost:('
 
 		if clickedSquares == (gridSize**2 - mineCount):		#checks if the game is won
 			endTime = time()	#stores time when the game is won
-			print('You won!')
 			gameover = True
 			for mine in minePositions:	#All mines are exposed.
 				bIdentity[mine].configure(height=46,width=62,image = flagImage)
@@ -49,8 +51,10 @@ def main():
 			minutes = score//60
 			seconds = score%60
 
-			print(f'Time taken:{hours}h {minutes}min {seconds}s')
-			return
+			#print(f'Time taken:{hours}h {minutes}min {seconds}s')
+			result = f'You Won!\n{hours}:{minutes}:{seconds}'
+			youwon.disp(result)
+			return f'You Won!\n{hours}:{minutes}:{seconds}'
 
 		if squareValues[(i,j)] == None:		#opens neighbouring squares if current squareValue is 0 (game rule)
 			neighbouringSquares = identifyNeighbouringSquares(i, j, gridSize)
@@ -67,24 +71,8 @@ def main():
 		elif button['image'] == 'pyimage1':	#Unflags the square.
 			button.configure(height = 2, width = 4, image = '')
 			
-	gridSize = None
-	while gridSize == None:
-			try:
-				gridSize = int(input('Enter grid size: '))
-				mineCount = int(input('Enter number of mines: '))
-				if gridSize < 4:
-					raise Exception('Grid size must at least 4.\n')
-				elif mineCount > gridSize**2 - 10 or mineCount < 1:
-					raise Exception(f'For grid size = {gridSize} the number of mines should be between 1 and {max(gridSize**2 - 10,1)}.\n')
-				break                    
-			except ValueError:
-				gridSize = None
-				print('Invalid Input\n')
-
-			except Exception as error:
-				print(error.args[0])
-				gridSize = None
 	#creating main window
+	global mainWindow
 	mainWindow = tkinter.Tk(className='Minesweeper')
 	mainWindow.option_add('*Font','22')
 	#images for the mine and the flag
@@ -103,4 +91,22 @@ def main():
 	mainWindow.mainloop()
 
 if __name__ == '__main__':
-	main()
+	gridSize = None
+	while gridSize == None:
+		try:
+			gridSize = int(input('Enter grid size: '))
+			mineCount = int(input('Enter number of mines: '))
+			if gridSize < 4:
+				raise Exception('Grid size must at least 4.\n')
+			elif mineCount > gridSize**2 - 10 or mineCount < 1:
+				raise Exception(f'For grid size = {gridSize} the number of mines should be between 1 and {max(gridSize**2 - 10,1)}.\n')
+			break                    
+		except ValueError:
+			gridSize = None
+			print('Invalid Input\n')
+
+		except Exception as error:
+			print(error.args[0])
+			gridSize = None
+
+	main(mainWindow,gridSize,mineCount)
