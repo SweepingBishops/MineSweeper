@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import tkinter as tk
 import os
 from functools import partial
@@ -46,9 +45,7 @@ def play():
 
 def game(gridsize):
 	root.destroy()
-	#print(gridsize)
 	launch.main(gridsize,6)
-	#youwon.disp(result)
 
 def Quit():
 	root.destroy()

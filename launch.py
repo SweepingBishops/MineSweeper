@@ -13,6 +13,7 @@ def main(gridSize,mineCount):
 	firstClickFlag,gameover = True, False
 	tileIdentity , minePositions , squareValues = {}, {}, {}
 	startTime, endTime, clickedSquares = 0,0,0
+
 	class tile():	#creating a class for a minesweeper tile
 		def __init__(self,mainWindow,xPos,yPos):
 			self.xPos=xPos
@@ -36,7 +37,7 @@ def main(gridSize,mineCount):
 
 			if (self.xPos,self.yPos) not in minePositions:	#if the clicked tile is not a mine it is shown as green
 				self.button.configure(text=squareValues[(self.xPos,self.yPos)], bg='green', activebackground='green')
-				clickedSquares += 1	#if the number of clicked squares is equal to non mine squares game is won. checked below
+				clickedSquares += 1	#if the number of clicked squares is equal to non-mine squares game is won. checked below
 			else:
 				for mine in minePositions:	#game is over when a mine is clicked
 					tileIdentity[mine].button.configure(height=46,width=62, bg='orange', activebackground='orange', image=mineImage)
@@ -79,14 +80,14 @@ def main(gridSize,mineCount):
 	mainWindow = tkinter.Tk(className='Minesweeper')
 	mainWindow.option_add('*Font','Ariel 12')
 	#images for the mine and the flag
-	flagImage = ImageTk.PhotoImage(Image.open('resources/flag.png').resize((50,50)))
-	mineImage = ImageTk.PhotoImage(Image.open('resources/mine.png').resize((50,50)))
+	flagImage = ImageTk.PhotoImage(Image.open('flag.png').resize((50,50)))
+	mineImage = ImageTk.PhotoImage(Image.open('mine.png').resize((50,50)))
 
 	for i in range(gridSize):
 		for j in range(gridSize):
-			#creates and tile object
+			#creates a tile object
 			button = tile(mainWindow,i,j)
-			tileIdentity[(i,j)] = button	#adds the object into the dictionary so that it can be used later
+			tileIdentity[(i,j)] = button	#adds the object into the dictionary with key as its x and y coordinates so that it can be used later
 	mainWindow.mainloop()
 
 if __name__ == '__main__':
