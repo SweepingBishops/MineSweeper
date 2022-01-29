@@ -44,7 +44,7 @@ def main(gridSize,mineCount):
 				self.button.configure(height=46, width=62, bg='red', activebackground='red', image=mineImage)
 				gameover = True
 				if __name__ != '__main__':	#calls the game end screen
-					youwon.disp(r'You Lost:(')
+					youwon.disp('You Lost :(')
 				return
 			if clickedSquares == (gridSize**2 - mineCount):	#checks if the game is won
 				endTime = time()	#the time when the game ends
@@ -57,7 +57,7 @@ def main(gridSize,mineCount):
 				score %= 3600
 				minutes = score//60
 				seconds = score%60
-				result = f'You Won!\n{hours}:{minutes}:{seconds}'
+				result = 'You Won!\n%02d:%02d:%02d'%(hours,minutes,seconds)
 				if __name__ != '__main__':	#calls game end screen
 					youwon.disp(result)
 				return

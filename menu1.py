@@ -36,16 +36,16 @@ def play():
 		youwon.root.destroy()
 		launch.mainWindow.destroy()
 
-	button1=tk.Button(root,text='gridsize=4*4',command=partial(game,4))
+	button1=tk.Button(root,text='gridsize=6x6\n5 mines',command=partial(game,6,5))
 	button1.grid(row=1,column=1,sticky='nsew')
-	button2=tk.Button(root,text='gridsize=8*8',command=partial(game,8))
+	button2=tk.Button(root,text='gridsize=8x8\n10 mines',command=partial(game,8,10))
 	button2.grid(row=2,column=1,sticky='nsew')
-	button3=tk.Button(root,text='gridsize=10*10',command=partial(game,10))
+	button3=tk.Button(root,text='gridsize=10x10\n15 mines',command=partial(game,10,15))
 	button3.grid(row=3,column=1,sticky='nesw')
 
-def game(gridsize):
+def game(gridSize,mineCount):
 	root.destroy()
-	launch.main(gridsize,6)
+	launch.main(gridSize,mineCount)
 
 def Quit():
 	root.destroy()
