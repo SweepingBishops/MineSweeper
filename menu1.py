@@ -3,6 +3,7 @@ import os
 from functools import partial
 import launch
 import youwon
+import highscore 
 def main2():
 	global root
 	root=tk.Tk()
@@ -51,8 +52,7 @@ def Quit():
 	root.destroy()
 
 def high():
-	root.destroy()
-	import highscore 
+	highscore.main()
 
 if __name__=='__main__':
 	main2()
