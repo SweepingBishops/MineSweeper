@@ -1,6 +1,6 @@
 import tkinter as tk
 import menu1
-def disp(a):
+def disp(a,gridsize):
 	#print(a)
 	global root
 	root=tk.Tk()
@@ -21,8 +21,10 @@ def disp(a):
 #buttons
 	button1=tk.Button(master=frame2,text='Play Again',width=12,height=2,command=menu1.play)
 	button1.grid(row=2,column=0)
-	button2=tk.Button(master=frame2,text='Add highscore',width=12,height=2)
+	button2=tk.Button(master=frame2,text='Add Score',width=12,height=2,command=addscore)
 	button2.grid(row=1,column=0)
+	if gridsize==None:
+		button2['state']='disabled'
 	button3=tk.Button(master=frame2,text='Quit',width=12,height=2,command=quit)
 	button3.grid(row=3,column=0)
 
@@ -34,7 +36,15 @@ def disp(a):
 #entry
 	entry1=tk.Entry(master=frame1)
 	entry1.grid(row=3,column=0,sticky='n')
-
+	
+def addscore():
+	if not entry1.get():
+		label1.configure(text='Please enter name')
+		return
+	name=entry1.get()
+	time=a[-8:]
+	insert.addhighscore(gridsize,name,time)
+	
 def quit():
 	root.destroy()
 	exit()
