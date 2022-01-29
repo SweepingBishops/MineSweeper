@@ -19,7 +19,7 @@ def disp(a):
 ##def add_highscore():
 
 #buttons
-	button1=tk.Button(master=frame2,text='Try Again',width=12,height=2,command=menu1.play)
+	button1=tk.Button(master=frame2,text='Play Again',width=12,height=2,command=menu1.play)
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add highscore',width=12,height=2)
 	button2.grid(row=1,column=0)
@@ -29,7 +29,7 @@ def disp(a):
 #labels
 	label1=tk.Label(master=frame1,text=a)
 	label1.grid(row=1,column=0,sticky='news')
-	label2=tk.Label(master=frame1,text='    enter name:')
+	label2=tk.Label(master=frame1,text='    Enter Name:')
 	label2.grid(row=2,column=0,sticky='ws')
 #entry
 	entry1=tk.Entry(master=frame1)
