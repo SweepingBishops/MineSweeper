@@ -59,7 +59,7 @@ def main(gridSize,mineCount):
 				seconds = score%60
 				result = 'You Won!\n%02d:%02d:%02d'%(hours,minutes,seconds)
 				if __name__ != '__main__':	#calls game end screen
-					youwon.disp(result)
+					youwon.disp(result,gridSize)
 				return
 
 			if squareValues[(self.xPos,self.yPos)] == None:	#opens all neighbouring tile if the current tile has value zero(game rule)

@@ -1,8 +1,11 @@
 import tkinter as tk
+import insert
 import menu1
 def disp(a,gridsize):
 	#print(a)
-	global root
+	global root,result,gridSize
+	result=a
+	gridSize = gridsize
 	root=tk.Tk()
 #frames
 	frame1=tk.Frame(master=root,relief=tk.SUNKEN,borderwidth=2)
@@ -23,17 +26,19 @@ def disp(a,gridsize):
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add Score',width=12,height=2,command=addscore)
 	button2.grid(row=1,column=0)
-	if gridsize==None:
-		button2['state']='disabled'
+#	if gridsize==None:
+#		button2['state']='disabled'
 	button3=tk.Button(master=frame2,text='Quit',width=12,height=2,command=quit)
 	button3.grid(row=3,column=0)
 
 #labels
+	global label1
 	label1=tk.Label(master=frame1,text=a)
 	label1.grid(row=1,column=0,sticky='news')
 	label2=tk.Label(master=frame1,text='    Enter Name:')
 	label2.grid(row=2,column=0,sticky='ws')
 #entry
+	global entry1
 	entry1=tk.Entry(master=frame1)
 	entry1.grid(row=3,column=0,sticky='n')
 	
@@ -42,8 +47,9 @@ def addscore():
 		label1.configure(text='Please enter name')
 		return
 	name=entry1.get()
-	time=a[-8:]
-	insert.addhighscore(gridsize,name,time)
+	time=result[-8:]
+	insert.addhighscore(gridSize,name,time)
+	label1.configure(text='Success!')
 	
 def quit():
 	root.destroy()
