@@ -36,6 +36,9 @@ def play():
 		root = tk.Tk()
 		youwon.root.destroy()
 		launch.mainWindow.destroy()
+		root.columnconfigure([0,2],minsize=75)
+		root.columnconfigure([1],minsize=150)
+		root.rowconfigure([0,1,2,3,4],minsize=50)
 
 	button1=tk.Button(root,text='gridsize=6x6\n5 mines',command=partial(game,6,5))
 	button1.grid(row=1,column=1,sticky='nsew')
