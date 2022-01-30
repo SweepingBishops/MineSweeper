@@ -7,6 +7,7 @@ def disp(a,gridsize):
 	result=a
 	gridSize = gridsize
 	root=tk.Tk()
+	root.title('MINESWEEPER')
 #frames
 	frame1=tk.Frame(master=root,relief=tk.SUNKEN,borderwidth=2)
 	frame1.pack(side=tk.LEFT)
