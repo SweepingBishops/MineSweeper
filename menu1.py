@@ -3,6 +3,7 @@ import os
 from functools import partial
 import launch
 import youwon
+import highscore 
 def main2():
 	global root
 	root=tk.Tk()
@@ -35,6 +36,9 @@ def play():
 		root = tk.Tk()
 		youwon.root.destroy()
 		launch.mainWindow.destroy()
+		root.columnconfigure([0,2],minsize=75)
+		root.columnconfigure([1],minsize=150)
+		root.rowconfigure([0,1,2,3,4],minsize=50)
 
 	button1=tk.Button(root,text='gridsize=6x6\n5 mines',command=partial(game,6,5))
 	button1.grid(row=1,column=1,sticky='nsew')
@@ -51,8 +55,7 @@ def Quit():
 	root.destroy()
 
 def high():
-	root.destroy()
-	import highscore 
+	highscore.main()
 
 if __name__=='__main__':
 	main2()
