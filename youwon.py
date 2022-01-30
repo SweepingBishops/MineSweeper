@@ -26,8 +26,6 @@ def disp(a,gridsize):
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add Score',width=12,height=2,command=addscore)
 	button2.grid(row=1,column=0)
-	if gridsize==None:
-		button2['state']='disabled'
 	button3=tk.Button(master=frame2,text='Quit',width=12,height=2,command=quit)
 	button3.grid(row=3,column=0)
 
@@ -42,6 +40,10 @@ def disp(a,gridsize):
 	entry1=tk.Entry(master=frame1)
 	entry1.grid(row=3,column=0,sticky='n')
 	
+	if gridsize==None:
+		entry1['state']='disabled'
+		label2['state']='disabled'
+		button2['state']='disabled'
 def addscore():
 	if not entry1.get():
 		label1.configure(text='Please enter name')
