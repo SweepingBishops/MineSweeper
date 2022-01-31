@@ -23,6 +23,7 @@ def disp(a,gridsize):
 ##def add_highscore():
 
 #buttons
+	global button2
 	button1=tk.Button(master=frame2,text='Play Again',width=12,height=2,command=menu1.play)
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add Score',width=12,height=2,command=addscore)
@@ -49,10 +50,12 @@ def addscore():
 	if not entry1.get():
 		label1.configure(text='Please enter name')
 		return
+	#global button1
 	name=entry1.get()
 	time=result[-8:]
 	insert.addhighscore(gridSize,name,time)
 	label1.configure(text='Success!')
+	button2['state']='disabled'
 	
 def quit():
 	root.destroy()
