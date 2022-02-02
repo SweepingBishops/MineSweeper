@@ -2,7 +2,7 @@ from tabulate import tabulate
 import tkinter as tk
 import mysql.connector as mysql
 def display():
-	db=mysql.connect(host='localhost',user='roshan',database='minesweeper',passwd='Wtmld0w3@lh3?0')
+	db=mysql.connect(host='localhost',user='root',database='minesweeper',passwd='')
 	cursor=db.cursor()
 
 #tkinter
@@ -30,7 +30,7 @@ def display():
 	except IndexError:
 	    pass
 	header=['Rank','Name','Time']    
-	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
+	label=tk.Label(master=frame1,text='Grid Size 6x6 5 mines\n'+tabulate(displayedData,headers=header,tablefmt='psql'),font=('Consolas',11))
 	label.grid(row=1,column=0)
 
 #gridsize8
@@ -44,7 +44,7 @@ def display():
 	except IndexError:
 	    pass
 	header=['Rank','Name','Time']    
-	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
+	label=tk.Label(master=frame1,text='Grid Size 8x8 10 mines\n'+tabulate(displayedData,headers=header,tablefmt='psql'),font=('Consolas',11))
 	label.grid(row=1,column=1)
 #gridsize10
 	cursor.execute('select * from gridsize10 order by time;')
@@ -57,12 +57,12 @@ def display():
 	except IndexError:
 	    pass
 	header=['Rank','Name','Time']    
-	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
+	label=tk.Label(master=frame1,text='Grid Size 10x10 15 mines\n'+tabulate(displayedData,headers=header,tablefmt='psql'),font=('Consolas',11))
 	label.grid(row=1,column=2)
 
 
 def  addHighScore(gridSize,username,time):   
-    db=mysql.connect(host='localhost',user="roshan",password="Wtmld0w3@lh3?0",charset = "utf8",database="minesweeper")
+    db=mysql.connect(host='localhost',user="root",password="",charset = "utf8",database="minesweeper")
     cursor=db.cursor()
     cursor.execute(f"insert into gridsize{gridSize} values('{username}','{time}')")
     db.commit()
