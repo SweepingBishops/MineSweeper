@@ -1,6 +1,5 @@
 from tabulate import tabulate
 import tkinter as tk
-#import play
 import mysql.connector as mysql
 def display():
 	db=mysql.connect(host='localhost',user='roshan',database='minesweeper',passwd='Wtmld0w3@lh3?0')
