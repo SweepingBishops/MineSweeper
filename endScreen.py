@@ -1,7 +1,7 @@
 import tkinter as tk
 from functools import partial
-import highscore
-import play
+from highscore import addHighScore
+from play import play
 def display(result,gridSize):
 	global root
 	root=tk.Tk()
@@ -19,7 +19,7 @@ def display(result,gridSize):
 
 #buttons
 	global button2
-	button1=tk.Button(master=frame2,text='Play Again',width=12,height=2,command=play.play)
+	button1=tk.Button(master=frame2,text='Play Again',width=12,height=2,command=play)
 	button1.grid(row=2,column=0)
 	button2=tk.Button(master=frame2,text='Add Score',width=12,height=2,command=partial(addScore,result,gridSize))
 	button2.grid(row=1,column=0)
@@ -48,7 +48,7 @@ def addScore(result,gridSize):
 	#global button1
 	name=entry1.get()
 	time=result[-8:]
-	highscore.addHighScore(gridSize,name,time)
+	addHighScore(gridSize,name,time)
 	label1.configure(text='Success!')
 	button2['state']='disabled'
 	
