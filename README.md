@@ -5,3 +5,4 @@ Class 12 project.
 Requirements:
 	tkinter
 	pillow
+	tabulate
