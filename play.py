@@ -1,3 +1,4 @@
+#!/usr/bin/python3.8
 import tkinter as tk
 from _tkinter import TclError
 from functools import partial
