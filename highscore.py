@@ -1,10 +1,10 @@
-import tabulate
+from tabulate import tabulate
 import tkinter as tk
-import menu1
-import mysql.connector as mc
-def main():
-	conn=mc.connect(host='localhost',user='root',database='minesweeper',passwd='')
-	cur=conn.cursor()
+#import play
+import mysql.connector as mysql
+def display():
+	db=mysql.connect(host='localhost',user='roshan',database='minesweeper',passwd='Wtmld0w3@lh3?0')
+	cursor=db.cursor()
 
 #tkinter
 	root=tk.Tk()
@@ -21,51 +21,50 @@ def main():
 	frame2.pack()
 
 #gridsize6
-	cur.execute('select * from gridsize6 order by time;')
-	b=list(cur)
-	d=[]
+	cursor.execute('select * from gridsize6 order by time;')
+	data=list(cursor)
+	displayedData=[]
 	try:
-		for i in range(5):
-		    c=list(b[i])
-		    c.insert(0,i+1)
-		    d+=[c]
+		for rank in range(5):
+			displayedData += [[rank+1]+list(data[rank])]
+
 	except IndexError:
 	    pass
-	head=['Rank','Name','Time']    
-	a=tabulate.tabulate(d,headers=head)
-	label=tk.Label(master=frame1,text=a)
+	header=['Rank','Name','Time']    
+	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
 	label.grid(row=1,column=0)
 
 #gridsize8
-	cur.execute('select * from gridsize8 order by time;')
-	b=list(cur)
-	d=[]
+	cursor.execute('select * from gridsize8 order by time;')
+	data=list(cursor)
+	displayedData=[]
 	try:
-		for i in range(5):
-		    c=list(b[i])
-		    c.insert(0,i+1)
-		    d+=[c]
+		for rank in range(5):
+			displayedData += [[rank+1]+list(data[rank])]
+
 	except IndexError:
-		pass
-	head=['Rank','Name','Time']    
-	a=tabulate.tabulate(d,headers=head)
-	label=tk.Label(master=frame1,text=a)
+	    pass
+	header=['Rank','Name','Time']    
+	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
 	label.grid(row=1,column=1)
 #gridsize10
-	cur.execute('select * from gridsize10 order by time;')
-	b=list(cur)
-	d=[]
+	cursor.execute('select * from gridsize10 order by time;')
+	data=list(cursor)
+	displayedData=[]
 	try:
-		for i in range(5):
-		    c=list(b[i])
-		    c.insert(0,i+1)
-		    d+=[c]
+		for rank in range(5):
+			displayedData += [[rank+1]+list(data[rank])]
+
 	except IndexError:
-		pass
-	head=['Rank','  Name  ','Time']    
-	a=tabulate.tabulate(d,headers=head)
-	label=tk.Label(master=frame1,text=a)
+	    pass
+	header=['Rank','Name','Time']    
+	label=tk.Label(master=frame1,text=tabulate(displayedData,headers=header))
 	label.grid(row=1,column=2)
 
-if __name__ == '__main__':
-	main()
+
+def  addHighScore(gridSize,username,time):   
+    db=mysql.connect(host='localhost',user="roshan",password="Wtmld0w3@lh3?0",charset = "utf8",database="minesweeper")
+    cursor=db.cursor()
+    cursor.execute(f"insert into gridsize{gridSize} values('{username}','{time}')")
+    db.commit()
+
