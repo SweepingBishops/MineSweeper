@@ -45,7 +45,6 @@ def addScore(result,gridSize):
 	if not entry1.get():
 		label1.configure(text='Please enter name')
 		return
-	#global button1
 	name=entry1.get()
 	time=result[-8:]
 	addHighScore(gridSize,name,time)
