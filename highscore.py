@@ -62,7 +62,7 @@ def display():
 
 
 def  addHighScore(gridSize,username,time):   
-    db=mysql.connect(host='localhost',user="roshan",password="Wtmld0w3@lh3?0",charset = "utf8",database="minesweeper")
+    db=mysql.connect(host='localhost',user="root",password="",charset = "utf8",database="minesweeper")
     cursor=db.cursor()
     cursor.execute(f"insert into gridsize{gridSize} values('{username}','{time}')")
     db.commit()
