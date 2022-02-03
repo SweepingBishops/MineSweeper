@@ -78,7 +78,7 @@ def main(gridSize,mineCount):
 	#creating main window
 	global mainWindow
 	mainWindow = tkinter.Tk(className='Minesweeper')
-	mainWindow.option_add('*Font','Ariel 12')
+	mainWindow.option_add('*Font','Consolas 12')
 	#images for the mine and the flag
 	flagImage = ImageTk.PhotoImage(Image.open('flag.png').resize((50,50)))
 	mineImage = ImageTk.PhotoImage(Image.open('mine.png').resize((50,50)))
