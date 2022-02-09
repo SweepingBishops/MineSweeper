@@ -26,6 +26,10 @@ def main(gridSize,mineCount):
         buttonWidthWithImage = 49
     else:
         print(f'This program has not been tested on {system()}!')
+        buttonHeight = 2
+        buttonWidth = 4
+        buttonHeightWithImage = 46
+        buttonWidthWithImage = 62
 
     class tile():   #creating a class for a minesweeper tile
         def __init__(self,mainWindow,xPos,yPos):
