@@ -37,7 +37,6 @@ def main(gridSize,mineCount):
             self.button.bind("<Button-1>",self.leftClick)   #sets commands for left and right clicks
             self.button.bind("<Button-3>",self.rightClick)
 
-        
         def leftClick(self,event=None):
             nonlocal result,gameover,firstClickFlag,clickedSquares,minePositions,squareValues,startTime,endTime
             if self.rightClicked or self.leftClicked or gameover:
@@ -113,7 +112,7 @@ if __name__ == '__main__':
                 raise Exception('Grid size must at least 4.\n')
             elif mineCount > gridSize**2 - 10 or mineCount < 1:
                 raise Exception(f'For grid size = {gridSize} the number of mines should be between 1 and {max(gridSize**2 - 10,1)}.\n')
-            break                    
+            break
         except ValueError:
             gridSize = None
             print('Invalid Input\n')
