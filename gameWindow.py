@@ -11,8 +11,8 @@ from plantMines import plantMines, identifyNeighbouringSquares
 def main(gridSize,mineCount):
     ###Global variables###
     result = None
-    firstClickFlag,gameover = True, False
-    tileIdentity , minePositions , squareValues = {}, {}, {}
+    firstClickFlag, gameover = True, False
+    tileIdentity, minePositions , squareValues = {}, {}, {}
     startTime, endTime, clickedSquares = 0,0,0
     if system() == 'Linux':
         buttonHeight = 2
@@ -29,22 +29,22 @@ def main(gridSize,mineCount):
 
     class tile():   #creating a class for a minesweeper tile
         def __init__(self,mainWindow,xPos,yPos):
-            self.xPos=xPos
-            self.yPos=yPos
-            self.leftClicked,self.rightClicked = False,False    #flags to check if the tile has been clicked
-            self.button=tkinter.Button(mainWindow,disabledforeground='black',height=buttonHeight,width=buttonWidth)
-            self.button.grid(row=xPos,column=yPos)
-            self.button.bind("<Button-1>",self.leftClick)   #sets commands for left and right clicks
-            self.button.bind("<Button-3>",self.rightClick)
+            self.xPos = xPos
+            self.yPos = yPos
+            self.leftClicked, self.rightClicked = False, False    #flags to check if the tile has been clicked
+            self.button = tkinter.Button(mainWindow, disabledforeground='black', height=buttonHeight, width=buttonWidth)
+            self.button.grid(row=xPos, column=yPos)
+            self.button.bind("<Button-1>", self.leftClick)   #sets commands for left and right clicks
+            self.button.bind("<Button-3>", self.rightClick)
 
         def leftClick(self,event=None):
-            nonlocal result,gameover,firstClickFlag,clickedSquares,minePositions,squareValues,startTime,endTime
+            nonlocal result, gameover, firstClickFlag, clickedSquares, minePositions, squareValues, startTime, endTime
             if self.rightClicked or self.leftClicked or gameover:
-                return
+                return None
             self.leftClicked = True
             if firstClickFlag:  #on the first left click of the game mines are planted
                 firstClickFlag = False
-                minePositions,squareValues = plantMines(self.xPos,self.yPos,gridSize,mineCount)
+                minePositions, squareValues = plantMines(self.xPos, self.yPos, gridSize, mineCount)
                 startTime = time()  #reads the time when the game is started
 
             if (self.xPos,self.yPos) not in minePositions:  #if the clicked tile is not a mine it is shown as green
@@ -52,7 +52,7 @@ def main(gridSize,mineCount):
                 clickedSquares += 1 #if the number of clicked squares is equal to non-mine squares game is won. checked below
             else:
                 for mine in minePositions:  #game is over when a mine is clicked
-                    tileIdentity[mine].button.configure(height=buttonHeightWithImage,width=buttonWidthWithImage, bg='orange', activebackground='orange', image=mineImage)
+                    tileIdentity[mine].button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, bg='orange', activebackground='orange', image=mineImage)
                 self.button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, bg='red', activebackground='red', image=mineImage)
                 gameover = True
                 if __name__ != '__main__':  #calls the game end screen
@@ -62,7 +62,7 @@ def main(gridSize,mineCount):
                 endTime = time()    #the time when the game ends
                 gameover = True
                 for mine in minePositions:  #displays all mines as flags
-                    tileIdentity[mine].button.configure(height=buttonHeightWithImage,width=buttonWidthWithImage,image=flagImage)
+                    tileIdentity[mine].button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, image=flagImage)
 
                 score = round(endTime - startTime)
                 hours = score//3600
@@ -71,8 +71,8 @@ def main(gridSize,mineCount):
                 seconds = score%60
                 result = 'You Won!\n%02d:%02d:%02d'%(hours,minutes,seconds)
                 if __name__ != '__main__':  #calls game end screen
-                    endScreen.display(result,gridSize)
-                return
+                    endScreen.display(result, gridSize)
+                return None
 
             if squareValues[(self.xPos,self.yPos)] == None: #opens all neighbouring tile if the current tile has value zero(game rule)
                 neighbouringSquares = identifyNeighbouringSquares(self.xPos,self.yPos,gridSize)
@@ -86,7 +86,7 @@ def main(gridSize,mineCount):
                 self.button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, image=flagImage)
             else:   #removes flag
                 self.rightClicked = False
-                self.button.configure(height=buttonHeight, width=buttonWidth,image='')
+                self.button.configure(height=buttonHeight, width=buttonWidth, image='')
     #creating main window
     global mainWindow
     mainWindow = tkinter.Tk(className='Minesweeper')
