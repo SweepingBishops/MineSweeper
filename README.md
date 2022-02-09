@@ -6,3 +6,4 @@ Requirements:
 	tkinter
 	pillow
 	tabulate
+    MySQL
