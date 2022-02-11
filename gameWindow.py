@@ -57,6 +57,7 @@ def main(gridSize,mineCount):
             else:
                 for mine in minePositions:  #game is over when a mine is clicked
                     tileIdentity[mine].button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, bg='orange', activebackground='orange', image=mineImage)
+                    tileIdentity[mine].leftClicked = True
                 self.button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, bg='red', activebackground='red', image=mineImage)
                 gameover = True
                 if __name__ != '__main__':  #calls the game end screen
@@ -67,6 +68,7 @@ def main(gridSize,mineCount):
                 gameover = True
                 for mine in minePositions:  #displays all mines as flags
                     tileIdentity[mine].button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, image=flagImage)
+                    tileIdentity[mine].leftClicked = True
 
                 score = round(endTime - startTime)
                 hours = score//3600
@@ -88,7 +90,7 @@ def main(gridSize,mineCount):
             if not self.rightClicked and not self.leftClicked:  #shows flag if not already flagged or left clicked
                 self.rightClicked = True
                 self.button.configure(height=buttonHeightWithImage, width=buttonWidthWithImage, image=flagImage)
-            else:   #removes flag
+            elif not self.leftClicked:   #removes flag
                 self.rightClicked = False
                 self.button.configure(height=buttonHeight, width=buttonWidth, image='')
     #creating main window
